@@ -1,34 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Image Data Extractor</title>
-    <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
-        .upload-zone { border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 8px; }
-        .result-box { margin-top: 20px; padding: 15px; background: #f4f4f4; border-radius: 5px; display: none; }
-        h3 { margin-top: 0; }
-    </style>
-    <!-- We load the EXIF library directly from a CDN -->
-    <script src="https://jsdelivr.net"></script>
+    <title>Receipt Data Extractor</title>
 </head>
 <body>
+    <h2>Upload Your Shopping Receipt</h2>
+    <input type="file" id="receiptInput" accept="image/*">
+    <button onclick="uploadReceipt()">Extract Total</button>
+    
+    <h3>Result:</h3>
+    <p id="totalOutput">Waiting for upload...</p>
 
-    <h2>Upload an Image to Extract Data</h2>
-    <div class="upload-zone">
-        <input type="file" id="imageInput" accept="image/jpeg, image/jpg">
-        <p>Select a JPEG image to view its shortened data (EXIF).</p>
-    </div>
+    <script>
+        async function uploadReceipt() {
+            const input = document.getElementById('receiptInput');
+            if (input.files.length === 0) return alert('Please select an image first.');
 
-    <div id="result" class="result-box">
-        <h3>Shortened Image Data:</h3>
-        <p><strong>Camera:</strong> <span id="camera">-</span></p>
-        <p><strong>Date Taken:</strong> <span id="date">-</span></p>
-        <p><strong>Dimensions:</strong> <span id="dimensions">-</span></p>
-        <p><strong>GPS Location:</strong> <span id="gps">-</span></p>
-        <p><a id="mapsLink" href="#" target="_blank" style="display:none; color: #0066cc; font-weight: bold;">📍 View on Google Maps</a></p>
-    </div>
+            const formData = new FormData();
+            formData.append('receipt', input.files[0]);
 
-    <script src="app.js"></script>
+            document.getElementById('totalOutput').innerText = "Processing image...";
+
+            // Send image to your backend server
+            const response = await fetch('http://localhost:3000/upload', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const data = await response.json();
+            document.getElementById('totalOutput').innerText = `Total Money: $${data.total}`;
+        }
+    </script>
 </body>
 </html>
