@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Data Extractor</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        .upload-zone { border: 2px dashed #ccc; padding: 30px; text-align: center; border-radius: 8px; }
+        .result-box { margin-top: 20px; padding: 15px; background: #f4f4f4; border-radius: 5px; display: none; }
+        h3 { margin-top: 0; }
+    </style>
+    <!-- We load the EXIF library directly from a CDN -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+<body>
+
+    <h2>Upload an Image to Extract Data</h2>
+    <div class="upload-zone">
+        <input type="file" id="imageInput" accept="image/jpeg, image/jpg">
+        <p>Select a JPEG image to view its shortened data (EXIF).</p>
+    </div>
+
+    <div id="result" class="result-box">
+        <h3>Shortened Image Data:</h3>
+        <p><strong>Camera:</strong> <span id="camera">-</span></p>
+        <p><strong>Date Taken:</strong> <span id="date">-</span></p>
+        <p><strong>Dimensions:</strong> <span id="dimensions">-</span></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
